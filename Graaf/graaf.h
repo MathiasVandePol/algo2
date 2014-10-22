@@ -78,7 +78,6 @@ typedef std::map<int, int>  Knoop;      // beeldt knoopnummer (van buur) af op v
     // Voegt een nieuwe 'lege' knoop toe, d.w.z. zonder verbindingen.
     // Geeft knoopnummer van toegevoegde knoop terug (begint bij 0).
     virtual int voegKnoopToe();   
-    
     // Voegt verbinding toe tussen knoopnummers 'van' en 'naar'.
     // Gooit GraafExceptie indien verbinding al bestaat of knoopnummers ongeldig zijn.
     // Geeft verbindingsnummer van toegevoegde verbinding terug (begint bij 0).
@@ -104,6 +103,8 @@ typedef std::map<int, int>  Knoop;      // beeldt knoopnummer (van buur) af op v
     // Opgelet: performantie is O(log(v)) waarbij v aantal verbindingen vanuit 'van' is.
     int verbindingsnummer(int van, int naar) const; 
 
+
+
     // Verwijdert alle knopen en verbindingen en herstart de verbindingsnummer
     virtual void wis();
 
@@ -127,7 +128,7 @@ protected:
     void controleerKnoopnummer(int k) const;   // throw indien k ongeldig
     void voegVerbindingToeInDatastructuur(int van, int naar,int verbindingsnummer);
     void verwijderVerbindingUitDatastructuur(int van, int naar);
-protected:
+public:
     //datavelden
     std::vector<Knoop>  knopen;
     int                 hoogsteVerbindingsnummer;
@@ -162,6 +163,7 @@ bool Graaf<RT>::isGericht() const { return true; }//voor gerichte graaf
 
 template<>
 bool Graaf<ONGERICHT>::isGericht() const { return false; }//voor ongerichte graaf
+
 
 
 template<RichtType RT>
