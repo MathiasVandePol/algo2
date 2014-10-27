@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <stack>
+#include <queue>
 
 using namespace std;
 
@@ -10,18 +11,85 @@ protected:
 	typedef std::map<int, int>  Knoop;      // beeldt knoopnummer (van buur) af op verbindingsnummer
 	Graaf<GERICHT> graaf;
 	Graaf<GERICHT> omgekeerdeGraaf;
+	Graaf<GERICHT> componentenGraaf;
 	map<string, int> woordenMap;			//Woorden
 	vector<string> alleWoorden;
+	vector<string> alleVerbindingen;
 	vector<int>	componentnummer;
 	std::stack<int> s;
 
 public:
 
-	woordspelletje(){
+	woordspelletje(string woorden, string takken){
+		leesWoordenIn(woorden);
+		leesVerbindingenIn(takken);
+		overloopPostorder();
+		int aantalC = componentnummerZoeker();
+		ofstream out("output.txt");
+		printAllComponenten(out, aantalC);
+
+		vector<int> lus;
+
+		vector<int> geldigeWoorden;
+		bepaalGeldigeWoorden(geldigeWoorden);
+
+		for (int i = 0; i < geldigeWoorden.size(); i++)
+		{
+			lus.clear();
+			zoekLus(geldigeWoorden[i], lus);
+			printLus(lus);
+		}
 	}
 	~woordspelletje(){
 	}
 
+
+
+	void bepaalGeldigeWoorden(vector<int> & geldigeWoorden)
+	{
+		map<int, int> componentGroottes;
+		stack<int> geldigeComponenten;
+		for (int i = 0; i < componentnummer.size(); i++)
+		{
+			componentGroottes[componentnummer[i]]++;
+		}
+		for (map<int, int>::iterator it = componentGroottes.begin(); it != componentGroottes.end(); it++)
+		{
+			if (1 < it->second) geldigeComponenten.push(it->first);
+		}
+		while (0 < geldigeComponenten.size())
+		{
+			for (int i = 0; i < componentnummer.size(); i++)
+			{
+				if (componentnummer[i] == geldigeComponenten.top())
+				{
+					geldigeWoorden.push_back(i);
+				}
+			}
+			geldigeComponenten.pop();
+		}
+	}
+
+
+
+	void printLus(vector<string> & woorden,  vector<int> & lus)
+	{
+		if (lus.size() == 0)
+		{
+			cout << "!!!!!!!!!!!!!!!!!!!" << endl;
+			return;
+		}
+		int van, naar, via;
+		cout << "--- " << woorden[lus[0]] << " ---" << endl;
+		for (int i = 0; i < lus.size(); i++)
+		{
+			van = lus[i];
+			naar = lus[(i + 1) % lus.size()];
+			via = graaf[van][naar];
+			cout << woorden[van] << " -> " << woorden[naar] << " via " << alleVerbindingen[via] << endl;
+		}
+
+	}
 
 
 	void leesWoordenIn(string bestandsnaam){
@@ -53,6 +121,7 @@ public:
 			while (fstream2 >> s1 >> s2 >> s3){
 				j = graaf.voegVerbindingToe(woordenMap[s1], woordenMap[s2]);
 				omgekeerdeGraaf.voegVerbindingToe(woordenMap[s2], woordenMap[s1]);
+				alleVerbindingen.push_back(s3);
 			}
 			fstream2.close();
 		}
@@ -121,7 +190,66 @@ public:
 		out << "In totaal " << j << " knopen in deze component" << endl;
 	}
 
-	
+
+	void zoekLus(int index, vector<int> & lus)
+	{
+		vector<bool> seen(graaf.knopen.size());
+		map<int, int> previous;
+		queue<int> q;
+		int component = componentnummer[index];
+		q.push(index);
+		while (0 < q.size())
+		{
+			for (Knoop::iterator it = graaf.knopen[q.front()].begin(); it != graaf.knopen[q.front()].end(); it++)
+			{
+				if (component = componentnummer[it->first] && !seen[it->first])
+				{
+					if (it->first == index)
+					{
+
+						int knoop = q.front();
+						while (knoop != index)
+						{
+							lus.push_back(knoop);
+							knoop = previous[knoop];
+						}
+						lus.push_back(knoop);
+						reverse(lus.begin(), lus.end());
+						return;
+					}
+					seen[it->first] = true;
+					previous[it->first] = q.front();
+					q.push(it->first);
+				}
+			}
+			q.pop();
+
+		}
+		return;
+
+
+	}
+
+
+	void printLus( vector<int> & lus)
+	{
+		if (lus.size() == 0)
+		{
+			cout << "!!!!!!!!!!!!!!!!!!!" << endl;
+			return;
+		}
+		int van, naar, via;
+		cout << "--- " << alleWoorden[lus[0]] << " ---" << endl;
+		for (int i = 0; i < lus.size(); i++)
+		{
+			van = lus[i];
+			naar = lus[(i + 1) % lus.size()];
+			via = graaf[van][naar];
+			cout << alleWoorden[van] << " -> " << alleWoorden[naar] << " via " << alleVerbindingen[via] << endl;
+		}
+
+	}
+
 };
 
 
@@ -130,13 +258,8 @@ public:
 int main(int argc, char** argv) {
 	const string woorden = "woordenlijst.txt";
 	const string takken = "takkenlijst.txt";
-	woordspelletje w;
-	w.leesWoordenIn(woorden);
-	w.leesVerbindingenIn(takken);
-	w.overloopPostorder();
-	int aantalC = w.componentnummerZoeker();
-	ofstream out("output.txt");
-	w.printAllComponenten(out, aantalC);
+	woordspelletje w(woorden,takken);
+	
 	return 0;
 }
 
