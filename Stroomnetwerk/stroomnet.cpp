@@ -21,6 +21,8 @@ int main(){
     Stroomnetwerk<int> sn(gr,1,4);
 	
 
-    cout<<sn<<endl;//
-  //  assert(sn.geefCapaciteit()==13);
+    cout<<sn<<endl;
+	int capaciteit = sn.geefCapaciteit();
+    assert(sn.geefCapaciteit()==13);
+	cout << "Capaciteit: " << capaciteit << endl;
 }

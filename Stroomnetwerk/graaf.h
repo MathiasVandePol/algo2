@@ -315,7 +315,6 @@ int GraafMetTakdata<RT,Takdata>::voegVerbindingToe(int van, int naar){
 
 template<RichtType RT,class Takdata>
 int GraafMetTakdata<RT,Takdata>::voegVerbindingToe(int van, int naar, const Takdata& td){
-	cout << "van:" << van << " naar:" << naar << " data:" << td << endl;
     bool isnieuwtaknummer=this->vrijgekomenVerbindingsnummers.empty();
     int taknummer=Graaf<RT>::voegVerbindingToe(van,naar);
     if (isnieuwtaknummer)

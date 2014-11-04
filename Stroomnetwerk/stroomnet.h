@@ -3,6 +3,8 @@
 #include "graaf.h"
 #include <cassert>
 #include <iostream>
+#include <map>
+using std::map;
 using std::vector;
 using std::ostream;
 
@@ -70,7 +72,6 @@ Vergrotendpadzoeker<T>::Vergrotendpadzoeker(const GraafMetTakdata<GERICHT ,T>& _
         }
         p.zetCapaciteit(g);
     }
-	cout << p << endl;
 }
 
 template <class T>
@@ -124,6 +125,9 @@ Stroomnetwerk(const GraafMetTakdata<GERICHT, T>& gr):
 Stroomnetwerk(const GraafMetTakdata<GERICHT, T>& gr, int _van, int _naar):
                     Graaf<GERICHT>(gr.aantalKnopen()),van(_van),naar(_naar) {
     Stroomnetwerk<T> restnetwerk(gr);
+	int size = this->takdatavector.size();
+	this->takdatavector.clear();
+	this->takdatavector.resize(size);
     Pad<T> vergrotendpad;
     Vergrotendpadzoeker<T> vg(restnetwerk, van, naar, vergrotendpad);
     while(vergrotendpad.size() !=0 ){
@@ -163,11 +167,24 @@ Stroomnetwerk & operator+=(Pad<T> &p){
 		}
 		td = this->geefTakdata(naar, van);
 		*td -= p.geefCapaciteit();	
-		if (*td == 0){
+		if (*td <= 0){
 			verwijderVerbindingUitDatastructuur(naar, van);
 		}
 	}
 	return *this;
+}
+
+T geefCapaciteit() {
+	int capaciteit = 0;
+	int knoopNr = 0;
+	for (int i = 0; i < knopen.size(); i++){
+		for (map<int, int>::iterator it = knopen[i].begin(); it != knopen[i].end(); it++){
+			if (it->first == naar){
+				capaciteit += *this->geefTakdata(i, naar);
+			}
+		}
+	}
+	return capaciteit;
 }
 
 protected:
