@@ -1,4 +1,4 @@
-#include "stroomnet.h"
+/*#include "stroomnet.h"
 using std::cout;
 using std::endl;
 int main(){
@@ -25,4 +25,4 @@ int main(){
 	int capaciteit = sn.geefCapaciteit();
     assert(sn.geefCapaciteit()==13);
 	cout << "Capaciteit: " << capaciteit << endl;
-}
+}*/

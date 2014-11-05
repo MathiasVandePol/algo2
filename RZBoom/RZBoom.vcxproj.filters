@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Y:\home\Athena\Algoritmen II\RZB\RZB.cpp">
+    <ClCompile Include="RZB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Y:\home\Athena\Algoritmen II\RZB\RZBOefn.cpp">
+    <ClCompile Include="RZBOefn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

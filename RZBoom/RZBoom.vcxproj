@@ -10,6 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="RZB.cpp" />
+    <ClCompile Include="RZBOefn.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0F592143-A4E0-497D-8858-7C73B829D39D}</ProjectGuid>
     <RootNamespace>RZBoom</RootNamespace>
@@ -64,10 +68,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Y:\home\Athena\Algoritmen II\RZB\RZB.cpp" />
-    <ClCompile Include="Y:\home\Athena\Algoritmen II\RZB\RZBOefn.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
