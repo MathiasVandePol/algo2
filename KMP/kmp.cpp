@@ -1,4 +1,4 @@
-﻿#include "knuthmorrispratt.h";
+﻿#include "knuthmorrispratt.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -25,6 +25,6 @@ int main(){
 	uchar* b = &bijbel[0];
 	const uchar pattern[6] = "aarde";
 	KnuthMorrisPratt kmp(pattern, 5);
-	queue<const uint> q;
+	queue<const uint *> q;
 	kmp.zoek(q, b, size);
 }

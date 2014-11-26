@@ -15,7 +15,7 @@ private:
 
 public:
 	KnuthMorrisPratt(const uchar* naald, uint _naaldlengte);	//naald = pattern
-	void zoek(std::queue<const uint>& plaats,
+	void zoek(std::queue<const uint*>& plaats,
 		const uchar* hooiberg, uint hooiberglengte);
 };
 
@@ -45,7 +45,7 @@ KnuthMorrisPratt::KnuthMorrisPratt(const uchar* _naald, uint _naaldlengte){
 	}
 }
 
-void KnuthMorrisPratt::zoek(std::queue<const uint>& plaats,
+void KnuthMorrisPratt::zoek(std::queue<const uint*>& plaats,
 	const uchar* hooiberg, uint hooiberglengte){
 	uint j = 0;
 	for (int i = 0; i < hooiberglengte; i++){
@@ -56,7 +56,7 @@ void KnuthMorrisPratt::zoek(std::queue<const uint>& plaats,
 				if (j == naaldlengte){	//mss laatste?
 					cout << "Gevonden op positie: " << i - j << endl;
 					const uint pl = i - j;
-					plaats.push(pl);
+					plaats.push(&pl);
 					j = failure[j - 1];	//terug naar laatste overlap
 				}
 				break;
