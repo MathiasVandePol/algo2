@@ -1,0 +1,4 @@
+#ifndef BELLMANFORD_H
+#define BELLMANFORD_H
+
+#endif // BELLMANFORD_H
