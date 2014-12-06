@@ -5,7 +5,9 @@ Debug/
 *.vcxproj.filters
 *.gch
 *.sln
-
+*.pro
+*.user
+*.pri
 
 # Compiled Object files
 *.slo
