@@ -30,11 +30,11 @@ public:
     }
     void bepaalKorstePad(int naar);
     void bepaalKorstePad(queue<WegOnderdeel*>& q, int gewicht, int via);
+    vector<WegOnderdeel> wegOnderdelen;
+    GraafMetTakdata<GERICHT,int> gr;
 
 private:
-    GraafMetTakdata<GERICHT,int> gr;
-        friend ostream& operator<<(ostream& os, const BellmanFord& w);
-    vector<WegOnderdeel> wegOnderdelen;
+    friend ostream& operator<<(ostream& os, const BellmanFord& w);
 };
 
 void BellmanFord::bepaalKorstePad(int van = 0){
